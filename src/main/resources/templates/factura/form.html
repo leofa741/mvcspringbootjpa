@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+    <title th:text="' My app ' + ${titulo}">Listar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+<header th:replace="layout/layout :: header">
+</header>
+
+<div class="container p-4">
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            <h1 th:text="${titulo}" class="text-center" >Listar</h1>
+        </div>
+
+        <div th:if="${#fields.hasErrors('factura')}" class="alert alert-danger" role="alert">
+            <p class="text-center" th:text="${#fields.errors('factura')}">Error</p>
+
+
+        </div>
+
+
+
+
+    </div>
+</div>
+
+<div class="container p-4">
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            <h1 th:text="${titulo} + ' para : ' + ${factura.cliente.nombre}" class="text-center" >Listar</h1>
+            <a th:href="@{/ver/{id}(id=${factura.cliente.id})}"  class="btn btn-primary mb-3 float-end ">Ver Cliente</a>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+          <form action="#" th:action="@{/factura/form}" th:object="${factura}" method="post" >
+
+              <input type="hidden" th:field="*{cliente.id}"/>
+              <label th:text="Cliente"></label>
+              <input th:value="${factura.cliente.nombre} + ' ' + ${factura.cliente.apellido}" class="form-control" disabled="disabled"/>
+
+
+              <div class="form-group row" >
+                  <label class="col-sm-2 col-form-label" th:text="Descripcion"></label>
+                  <input type="text"  th:field="*{descripcion}" class="form-control" placeholder="Descripcion" th:errorclass="is-invalid" />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Descripcion invalida</div>
+              </div>
+
+              <div class="form-group row" >
+                  <label class="col-sm-2 col-form-label" th:text="'Buscar Producto'"></label>
+                <input type="text"  name="term" id="term" class="form-control" placeholder="Buscar Producto"/>
+
+              </div>
+
+              <table th:replace="factura/plantilla-items :: itemsFactura"></table>
+
+              <table id="cargaritems" class="table table-sm table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Importe</th>
+                        <th>Eliminar</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody id="items-factura">
+
+                    </tbody>
+
+              </table>
+
+              <h5  >     Tolat :   <span id="gran_total" class="badge bg-secondary"></span>
+              </h5>
+
+
+
+
+              <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="Observacion"></label>
+                    <textarea  th:field="*{observacion}" class="form-control" placeholder="Observacion"></textarea>
+              </div>
+
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+
+
+          </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="layout/layout :: footer">
+</footer>
+
+<script th:replace="factura/js/autocomplete :: javascript">
+</script>
+
+
+</body>
+</html>>

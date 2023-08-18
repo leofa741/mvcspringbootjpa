@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+    <title th:text="' My app ' + ${titulo}">Listar</title>
+
+</head>
+<body>
+
+<header th:replace="layout/layout :: header">
+    <title th:text="' My app ' + ${titulo}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</header>
+
+
+<div class="container p-4">
+
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+
+            <h1 th:text="${titulo}" class="text-center">Listar</h1>
+        </div>
+
+        <div class="card-body">
+
+            <a th:href="@{/listar}" class="btn btn-primary mb-3 float-end ">Listar Clientes</a>
+
+            <img th:if="${#strings.isEmpty(cliente.foto)}" th:src="@{/img/default.png}" width="100" height="100" class="rounded-circle">
+
+            <img th:unless="${#strings.isEmpty(cliente.foto)}" th:src="@{/uploads/{filename}(filename=${cliente.foto})}" width="100" height="100" class="rounded-circle">
+
+            <ul>
+                <li th:text="${cliente.nombre}"></li>
+                <li th:text="${cliente.apellido}"></li>
+                <li th:text="${cliente.email}"></li>
+                <li th:text="${cliente.createAt}"></li>
+            </ul>
+
+
+            <div class="alert alert-info" role="alert" th:if="${cliente.facturas.size() == 0}">
+                <p class="text-center">El cliente no tiene facturas</p>
+            </div>
+
+            <table  class="table table-striped" th:if="${cliente.facturas.size() > 0}">
+                <thead>
+                <tr class="table-dark">
+                    <th>Folio</th>
+                    <th>Desscripcion</th>
+                    <th>Fecha</th>
+                    <th>Tolal</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="factura : ${cliente.facturas}" class="table-light">
+                    <td th:text="${factura.id}"></td>
+                    <td th:text="${factura.descripcion}"></td>
+                    <td th:text="${factura.createAt}"></td>
+                    <td th:text="${factura.total}"></td>
+
+                </tr>
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<footer th:replace="layout/layout :: footer">
+
+</footer>
+
+
+
+</body>
+</html>

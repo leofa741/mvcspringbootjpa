@@ -1,53 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" />
-    <title th:text="${titulo}">Listar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<head th:replace="layout/layout :: head">
+    <title th:text="' My app ' + ${titulo}">Listar</title>
+
 </head>
 <body>
 
-<div >
-    <div class="row">
-        <div class="col-12">
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown link
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <div class="container">
-<h1 th:text="${titulo}" class="text-center">Listar</h1>
+<header th:replace="layout/layout :: header">
+    <title th:text="' My app ' + ${titulo}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
+</header>
+
+
+
+    <div class="container p-4">
+
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+
+<h1 th:text="${titulo}" class="text-center">Listar</h1>
+            </div>
+
+            <div class="card-body">
 
   <a th:href="@{/form}" class="btn btn-primary mb-3 float-end ">Crear Cliente</a>
 
@@ -71,15 +48,26 @@
         <td>
             <a th:href="@{/form/{id}(id=${cliente.id})}" class="btn btn-warning">Editar</a>
             <a th:href="@{/eliminar/{id}(id=${cliente.id})}" class="btn btn-danger">Eliminar</a>
+            <a th:href="@{/ver/{id}(id=${cliente.id})}" class="btn btn-info">Ver</a>
+            <a th:href="@{/factura/form/{id}(id=${cliente.id})}" class="btn btn-success">Crear Factura</a>
 
         </td>
-
-
-
     </tr>
 </table>
+                <div  class="card-footer text-muted">
+
+                    <nav th:replace="paginator :: paginator" >   </nav>
+
+                </div>
 </div>
-</div>
+
+
+
+
+
+    <footer th:replace="layout/layout :: footer">
+
+    </footer>
 
 </body>
 </html>
