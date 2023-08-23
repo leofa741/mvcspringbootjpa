@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+    <title th:text="' My app ' + ${titulo}">Listar</title>
+
+</head>
+<body>
+
+<header th:replace="layout/layout :: header">
+</header>
+
+<div class="container p-4">
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            <h1 th:text="${titulo}" class="text-center" >Listar</h1>
+            <a th:href="@{/ver/{id}(id=${factura.cliente.id})}"  class="btn btn-primary mb-3 float-end ">Ver Cliente</a>
+        </div>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+
+                    <div class="col-sm-8">
+<h4 th:text="${factura.cliente.nombre} + ' ' + ${factura.cliente.apellido}"></h4>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <ul>
+                            <li th:text="${factura.cliente.nombre} + ' ' + ${factura.cliente.apellido}"></li>
+                            <li th:text="${factura.cliente.email}"></li>
+                            <li th:text="${factura.cliente.createAt}"></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+        <div class="alert alert-info" role="alert" th:if="${factura.items.size() == 0}">
+            <p class="text-center">El cliente no tiene facturas</p>
+
+        </div>
+
+        <ul class="list-group">
+            <li  class="list-group-item list-group-item-action list-group-item-dark">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4 th:text="${factura.id}">Folio</h4>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4 th:text="${factura.descripcion}">Descripcion</h4>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4 th:text="${factura.createAt}">Fecha</h4>
+                    </div>
+
+                </div>
+
+            </li>
+
+        </ul>
+
+        <table class="table table-striped">
+            <thead class="table-dark mb-3">
+            <tr class="table-dark">
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${factura.items}" class="table-light">
+                <td th:text="${item.producto.nombre}"></td>
+                <td th:text="${item.producto.precio}"></td>
+                <td th:text="${item.cantidad}"></td>
+                <td th:text="${item.calcularImporte()}"></td>
+
+            </tr>
+
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><h4>Total</h4></td>
+                <td><h4 th:text="${factura.total}"></h4></td>
+            </tr>
+
+            </tfoot>
+
+
+
+
+
+
+        </table>
+        <div >
+            <p  th:text="${factura.observacion}"></p>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<footer th:replace="layout/layout :: footer">
+</footer>
+
+</body>
+</html>>

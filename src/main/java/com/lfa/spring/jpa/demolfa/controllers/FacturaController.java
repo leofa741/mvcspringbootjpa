@@ -10,6 +10,7 @@ import com.lfa.spring.jpa.demolfa.models.services.IClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,20 +50,30 @@ public class FacturaController {
     }
 
     @PostMapping("/form")
-    public String guardar(@Valid Factura factura, BindingResult result,
+    public String guardar(@Valid Factura factura, BindingResult result, Model model,
                           @RequestParam(name = "item_id[]", required = false) Long[] itemId,
                           @RequestParam(name = "cantidad[]", required = false) Integer[] cantidad,
                           RedirectAttributes flash){
 
         if(result.hasErrors()){
             flash.addFlashAttribute("error", "Error al crear la factura");
+            model.addAttribute("titulo", "Crear Factura");
+            model.addAttribute("error", "Error al Crear Factura:La descripción es requerida ");
+
             return "factura/form";
         }
 
         if(itemId == null || itemId.length == 0){
 
-            flash.addFlashAttribute("error", "La factura no puede no tener líneas");
-            return "redirect:/ver/" + factura.getCliente().getId();
+            flash.addFlashAttribute("error", "La factura debe tener líneas");
+
+            model.addAttribute("titulo", "Crear Factura");
+            model.addAttribute("error", "Error al Crear Factura: La factura no puede no tener líneas");
+            model.addAttribute("factura", factura);
+
+            return "factura/form";
+
+
         }
 
         for(int i = 0; i < itemId.length; i++){
@@ -86,7 +97,7 @@ public class FacturaController {
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash){
 
-        Factura factura = clienteService.findFacturaById(id);
+        Factura factura = clienteService.fetchByIdWithClienteWithItemFacturaWithProducto(id);
         if(factura == null){
             flash.addFlashAttribute("error", "La factura no existe en la base de datos");
             return "redirect:/listar";
@@ -96,6 +107,21 @@ public class FacturaController {
         model.put("titulo", "Factura: " + factura.getDescripcion());
 
         return "factura/ver";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash){
+
+        Factura factura = clienteService.findFacturaById(id);
+
+        if(factura != null){
+            clienteService.deleteFactura(id);
+            flash.addFlashAttribute("success", "Factura eliminada con éxito");
+            return "redirect:/ver/" + factura.getCliente().getId();
+        }
+
+        flash.addFlashAttribute("error", "La factura no existe en la base de datos, no se pudo eliminar");
+        return "redirect:/listar";
     }
 
 

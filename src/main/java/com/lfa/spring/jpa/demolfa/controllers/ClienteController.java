@@ -33,7 +33,7 @@ public class ClienteController {
     @RequestMapping(value = "/ver/{id}", method = RequestMethod.GET)
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
 
-        Cliente cliente = clienteService.findOne(id);
+        Cliente cliente = clienteService.fetchByIdWithFacturas(id);
 
         if (cliente == null) {
             flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
@@ -120,15 +120,9 @@ public class ClienteController {
                 }
 
             }
-
-
-
             String uniqueFilename = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename();
-
-
             String rootPath = Paths.get("uploads").resolve(foto.getOriginalFilename()).toString();
             Path rootAbsolutPath = Paths.get(rootPath).toAbsolutePath();
-
 
              try {
                 Files.copy(foto.getInputStream(), rootAbsolutPath);
@@ -137,7 +131,6 @@ public class ClienteController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 
         String mensajeFlash = (cliente.getId() != null) ? "Cliente editado con éxito!" : "Cliente creado con éxito!";

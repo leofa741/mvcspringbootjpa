@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+    <title th:text="' My app ' + ${titulo}">Listar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+<header th:replace="layout/layout :: header">
+</header>
+
+<div class="container p-4">
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            <h1 th:text="${titulo}" class="text-center" >Listar</h1>
+        </div>
+
+        <div class="card border-primary ">
+            <div  class="card-header">
+                <h1  class="text-center" >Ingresar</h1>
+            </div>
+            <div class="card-body text-primary shadow-lg p-3 mb-5 bg-body rounded">
+
+                <form th:action="@{/login}" method="post" class="col-sm-12 text-center">
+
+
+
+
+                    <div class="form-group col-sm-4">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="username" id="username" />
+                    </div>
+
+
+
+                    <div class="form-group col-sm-4">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="password" id="password" />
+
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <input type="submit" value="Ingresar" class="btn btn-primary" />
+                    </div>
+
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+
+
+                </form>
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+ <footer th:replace="layout/layout :: footer">
+ </footer>
+
+</body>
+</html>>

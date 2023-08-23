@@ -50,6 +50,8 @@
                     <th>Desscripcion</th>
                     <th>Fecha</th>
                     <th>Tolal</th>
+                    <th>ver </th>
+                    <th>Eliminar </th>
                 </tr>
                 </thead>
 
@@ -60,6 +62,11 @@
                     <td th:text="${factura.descripcion}"></td>
                     <td th:text="${factura.createAt}"></td>
                     <td th:text="${factura.total}"></td>
+                    <td><a th:href="@{/factura/ver/{id}(id=${factura.id})}" class="btn btn-primary">Ver</a></td>
+
+                    <td><a th:href="@{/factura/eliminar/{id}(id=${factura.id})}" class="btn btn-danger">Eliminar</a></td>
+
+
 
                 </tr>
 
